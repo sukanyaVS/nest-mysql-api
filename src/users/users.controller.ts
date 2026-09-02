@@ -9,6 +9,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -17,9 +18,9 @@ export class UsersController {
   // Create a new user
   @Post()
   async create(
-    @Body() body: { name: string; email: string; age?: number },
+    @Body() createUserDto: CreateUserDto,
   ) {
-    return await this.usersService.create(body);
+    return await this.usersService.create(createUserDto);
   }
 
   // Get all users
