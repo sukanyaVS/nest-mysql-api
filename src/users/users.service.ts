@@ -8,11 +8,30 @@ export class UsersService {
   constructor(private prisma: PrismaService) {}
 
   // Create a new user
+  // async create(createUserDto: CreateUserDto) {
+  //   return await this.prisma.user.create({
+  //     data: createUserDto,
+  //   });
+  // }
+
   async create(createUserDto: CreateUserDto) {
-    return await this.prisma.user.create({
-      data: createUserDto,
-    });
-  }
+  const { profile, ...userData } = createUserDto;
+
+  return await this.prisma.user.create({
+    data: {
+      ...userData,
+
+      profile: profile
+        ? {
+            create: profile,
+          }
+        : undefined,
+    },
+    include: {
+      profile: true,
+    },
+  });
+}
 
   // Get all users
   async findAll() {
@@ -27,12 +46,37 @@ export class UsersService {
   }
 
   // Update a user
-  async update(id: number, data: UpdateUserDto) {
-    return await this.prisma.user.update({
-      where: { id },
-      data,
-    });
-  }
+  // async update(id: number, data: UpdateUserDto) {
+  //   return await this.prisma.user.update({
+  //     where: { id },
+  //     data,
+  //   });
+  // }
+
+
+  // Update a user
+async update(id: number, data: UpdateUserDto) {
+  const { profile, ...userData } = data;
+
+  return await this.prisma.user.update({
+    where: { id },
+    data: {
+      ...userData,
+
+      profile: profile
+        ? {
+            upsert: {
+              create: profile,
+              update: profile,
+            },
+          }
+        : undefined,
+    },
+    include: {
+      profile: true,
+    },
+  });
+}
 
   // Delete a user
   async delete(id: number) {

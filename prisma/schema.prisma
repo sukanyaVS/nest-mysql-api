@@ -19,4 +19,14 @@ model User {
   age       Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  profile   UserProfile?
+}
+
+model UserProfile {
+  id        Int    @id @default(autoincrement())
+  bio       String?
+  phone     String?
+  
+  userId    Int    @unique
+  user      User   @relation(fields: [userId], references: [id])
 }
