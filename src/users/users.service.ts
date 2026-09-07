@@ -96,4 +96,28 @@ async update(id: number, data: UpdateUserDto) {
       where: { id },
     });
   }
+
+  async enrollInCourse(userId: number, courseId: number) {
+  return await this.prisma.userCourse.create({
+    data: {
+      userId,
+      courseId,
+    },
+    include: {
+      user: true,
+      course: true,
+    },
+  });
+}
+
+async getUserCourses(userId: number) {
+  return await this.prisma.userCourse.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      course: true,
+    },
+  });
+}
 }

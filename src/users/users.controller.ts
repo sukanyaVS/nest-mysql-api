@@ -50,4 +50,17 @@ export class UsersController {
   async delete(@Param('id', ParseIntPipe) id: number) {
     return await this.usersService.delete(id);
   }
+
+  @Post(':userId/courses/:courseId')
+enrollInCourse(
+  @Param('userId', ParseIntPipe) userId: number,
+  @Param('courseId', ParseIntPipe) courseId: number,
+) {
+  return this.usersService.enrollInCourse(userId, courseId);
+}
+
+@Get(':id/courses')
+getUserCourses(@Param('id', ParseIntPipe) id: number) {
+  return this.usersService.getUserCourses(id);
+}
 }

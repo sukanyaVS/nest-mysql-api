@@ -21,6 +21,7 @@ model User {
   updatedAt DateTime @updatedAt
   profile   UserProfile?
   posts     Post[]
+  courses   UserCourse[]
 }
 
 model UserProfile {
@@ -40,4 +41,22 @@ model Post {
 
   userId    Int
   user      User     @relation(fields: [userId], references: [id])
+}
+
+model Course {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+
+  users       UserCourse[]
+}
+
+model UserCourse {
+  userId   Int
+  courseId Int
+
+  user     User   @relation(fields: [userId], references: [id])
+  course   Course @relation(fields: [courseId], references: [id])
+
+  @@id([userId, courseId])
 }
