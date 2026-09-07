@@ -20,6 +20,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   profile   UserProfile?
+  posts     Post[]
 }
 
 model UserProfile {
@@ -29,4 +30,14 @@ model UserProfile {
   
   userId    Int    @unique
   user      User   @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  createdAt DateTime @default(now())
+
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
 }

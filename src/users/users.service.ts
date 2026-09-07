@@ -15,7 +15,7 @@ export class UsersService {
   // }
 
   async create(createUserDto: CreateUserDto) {
-  const { profile, ...userData } = createUserDto;
+  const { profile, posts, ...userData } = createUserDto;
 
   return await this.prisma.user.create({
     data: {
@@ -26,9 +26,15 @@ export class UsersService {
             create: profile,
           }
         : undefined,
+      posts: posts
+        ? {
+            create: posts,
+          }
+        : undefined,
     },
     include: {
       profile: true,
+      posts: true,
     },
   });
 }
@@ -56,7 +62,7 @@ export class UsersService {
 
   // Update a user
 async update(id: number, data: UpdateUserDto) {
-  const { profile, ...userData } = data;
+  const { profile, posts, ...userData } = data;
 
   return await this.prisma.user.update({
     where: { id },
@@ -71,9 +77,15 @@ async update(id: number, data: UpdateUserDto) {
             },
           }
         : undefined,
+      posts: posts
+        ? {
+            create: posts,
+          }
+        : undefined,
     },
     include: {
       profile: true,
+      posts: true,
     },
   });
 }

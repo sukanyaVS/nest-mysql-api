@@ -1,5 +1,6 @@
 import { IsEmail, IsNumber, IsOptional, IsString, MinLength } from 'class-validator';
 import { CreateUserProfileDto } from './create-user-profile.dto';
+import { CreatePostDto } from './create-post.dto';
 
 export class CreateUserDto {
   @IsString({message: 'Name must be a string'})
@@ -13,6 +14,10 @@ export class CreateUserDto {
   @IsNumber()
   age?: number;
 
-    profile?: CreateUserProfileDto;
+  @IsOptional()
+  posts?: CreatePostDto[];
+
+  @IsOptional()
+  profile?: CreateUserProfileDto;
 
 }
