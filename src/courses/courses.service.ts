@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCourseDto } from './dto/create-course.dto';
+import { PaginationDto } from './dto/pagination.dto';
 import { Prisma } from '../generated/prisma/client';
 
 @Injectable()
@@ -20,16 +21,34 @@ export class CoursesService {
     }
   }
 
-  async findAll() {
-    return await this.prisma.course.findMany({
-      include: {
-        users: {
-          include: {
-            user: true,
+  async findAll({ page = 1, limit = 10 }: PaginationDto) {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await this.prisma.$transaction([
+      this.prisma.course.findMany({
+        skip,
+        take: limit,
+        orderBy: { id: 'asc' },
+        include: {
+          users: {
+            include: {
+              user: true,
+            },
           },
         },
+      }),
+      this.prisma.course.count(),
+    ]);
+
+    return {
+      data,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages: Math.ceil(total / limit),
       },
-    });
+    };
   }
 
   async findOne(id: number) {
