@@ -44,6 +44,16 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Environment files
+
+The application loads the environment file matching `NODE_ENV`:
+
+- `.env.development` for local development
+- `.env.test` for unit and e2e tests
+- `.env.production` for production deployments
+
+The start and test scripts set `NODE_ENV` automatically. Replace the placeholders in `.env.production` with deployment secrets, and do not commit environment files containing credentials.
+
 ## Run tests
 
 ```bash
