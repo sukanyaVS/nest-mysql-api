@@ -7,13 +7,17 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 
 import { CoursesService } from './courses.service';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { PaginationDto } from './dto/pagination.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('courses')
+  @UseGuards(JwtAuthGuard)
+
 export class CoursesController {
   constructor(private readonly coursesService: CoursesService) {}
 
