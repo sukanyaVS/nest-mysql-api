@@ -7,15 +7,18 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-     @Post('signup')
-      async signup(
-        @Body() createUserDto: CreateUserDto,
-      ) {
-        return await this.authService.signup(createUserDto);
-      }
+  @Post('signup')
+  async signup(@Body() createUserDto: CreateUserDto) {
+    return await this.authService.signup(createUserDto);
+  }
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
     return await this.authService.login(loginDto);
+  }
+
+  @Post('refresh')
+  async refresh(@Body() body: { refresh_token: string }) {
+    return await this.authService.refreshToken(body.refresh_token);
   }
 }
