@@ -6,13 +6,11 @@ import { PrismaModule } from './prisma/prisma.module';
 import { CoursesModule } from './courses/courses.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import jwtConfig from './auth/jwt.config';
 
 @Module({
   imports: [UsersModule, PrismaModule, CoursesModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [jwtConfig],
       envFilePath: [
         `.env.${process.env.NODE_ENV ?? 'development'}`,
         '.env',
