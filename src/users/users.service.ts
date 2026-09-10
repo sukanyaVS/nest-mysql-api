@@ -57,6 +57,13 @@ export class UsersService {
     });
   }
 
+  async updateRefreshTokenHash(id: number, refreshTokenHash: string | null) {
+    return await this.prisma.user.update({
+      where: { id },
+      data: { refreshTokenHash },
+    });
+  }
+
   // Update a user
   // async update(id: number, data: UpdateUserDto) {
   //   return await this.prisma.user.update({
